@@ -1,6 +1,6 @@
 package com.kailin.demo.controller;
 
-import com.kailin.demo.service.DeepSeekService;
+import com.kailin.demo.service.ChatService;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class ChatController {
 
 
     @Autowired
-    private DeepSeekService deepSeekService;
+    private ChatService chatService;
 
     /**
      * 聊天接口
@@ -28,7 +28,7 @@ public class ChatController {
      */
     @GetMapping("/chat")
     public String generate(@RequestParam(value = "message") String message, @RequestParam(value = "userId") String userId) {
-        return deepSeekService.chat(message, userId);
+        return chatService.chat(message, userId);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ChatController {
      */
     @GetMapping("/chatFlux")
     public Flux<ChatResponse> chatFlux(@RequestParam(value = "message", defaultValue = "hello") String message) {
-        return deepSeekService.chatFlux(message);
+        return chatService.chatFlux(message);
     }
 
 

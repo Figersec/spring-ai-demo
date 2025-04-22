@@ -6,7 +6,7 @@ import reactor.core.publisher.Flux;
 /**
  * @author 杨松
  */
-public interface DeepSeekService {
+public interface ChatService {
 
     /**
      * DeepSeek聊天普通接口

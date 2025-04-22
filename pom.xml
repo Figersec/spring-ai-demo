@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kailin</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>spring-ai-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>demo</description>

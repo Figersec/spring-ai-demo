@@ -24,9 +24,3 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-# application.yml 示例
-baidu:
-  speech:
-    appId: 你的AppID
-    apiKey: 你的API Key
-    secretKey: 你的Secret Key

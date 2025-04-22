@@ -18,7 +18,7 @@ import reactor.core.publisher.Flux;
  */
 @Service
 @RequiredArgsConstructor
-public class DeepSeekServiceImpl implements DeepSeekService {
+public class ChatServiceImpl implements ChatService {
 
 
     private final OpenAiChatModel chatModel;
@@ -27,7 +27,7 @@ public class DeepSeekServiceImpl implements DeepSeekService {
 
 
     @Autowired
-    public DeepSeekServiceImpl(ChatClient.Builder client, OpenAiChatModel chatModel) {
+    public ChatServiceImpl(ChatClient.Builder client, OpenAiChatModel chatModel) {
         this.client = client.build();
         this.chatModel = chatModel;
     }
