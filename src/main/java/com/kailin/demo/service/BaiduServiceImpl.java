@@ -24,25 +24,29 @@ public class BaiduServiceImpl implements BaiduService {
 
 
     @Override
-    public String speechToText(MultipartFile multipartFile) {
-        String filename = multipartFile.getOriginalFilename();
+    public boolean speechToText(MultipartFile multipartFile) {
         // 创建临时文件（自动添加扩展名）
         String tempName = "upload" + "." + getExtension(multipartFile.getOriginalFilename());
         File file = FileUtil.createTempFile(tempName, true);
 
+        // 转换成pcm
         byte[] bytes;
         try {
             bytes = AudioToPcmUtil.wavToPcm(file, null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        // 将文件通过websocket转发给百度
         InputStream inputStream;
         try {
             inputStream = new ByteArrayInputStream(bytes);
             (new Runner(inputStream, MODE)).run();
         } catch (IOException ignored) {
+
         }
-        return null;
+
+        return true;
     }
 
 

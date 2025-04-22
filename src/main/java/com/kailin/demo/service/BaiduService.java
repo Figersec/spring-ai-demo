@@ -12,7 +12,7 @@ public interface BaiduService {
      * @param file
      * @return
      */
-    String speechToText(MultipartFile file);
+    boolean speechToText(MultipartFile file);
 
 
 }

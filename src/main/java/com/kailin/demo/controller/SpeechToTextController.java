@@ -24,7 +24,7 @@ public class SpeechToTextController {
      * @return
      */
     @GetMapping("/realTimeStreamSpeechToText")
-    public String realTimeStreamSpeechToText(@RequestParam("file") MultipartFile file) {
+    public Boolean realTimeStreamSpeechToText(@RequestParam("file") MultipartFile file) {
         return baiduSpeechService.speechToText(file);
     }
 
