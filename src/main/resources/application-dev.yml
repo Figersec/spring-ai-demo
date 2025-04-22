@@ -1,0 +1,32 @@
+spring:
+  ai:
+    openai:
+      api-key: "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"
+      chat:
+        api-key: "sk-b222f3fff8694f77a1fb70eafb7c802b"
+        base-url: "https://dashscope.aliyuncs.com/compatible-mode"
+        options:
+          model: "deepseek-v3"
+      audio:
+        # 文本转语音
+#        speech:
+#          base-url: "api.openai.com"
+#          api-key:
+        #语音转文本
+        transcription:
+          base-url: "api.openai.com"
+          options:
+            temperature: 0.4
+            model: "whisper-1"
+  # 数据源
+  datasource:
+    url: jdbc:postgresql://192.168.21.74:5432/crmai
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+# application.yml 示例
+baidu:
+  speech:
+    appId: 你的AppID
+    apiKey: 你的API Key
+    secretKey: 你的Secret Key
