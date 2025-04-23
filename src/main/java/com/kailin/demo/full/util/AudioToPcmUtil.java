@@ -1,11 +1,12 @@
 package com.kailin.demo.full.util;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import java.io.ByteArrayOutputStream;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * 转成PCM音频文件
@@ -14,49 +15,22 @@ import java.io.FileOutputStream;
  */
 public class AudioToPcmUtil {
 
-    /**
-     * 将WAV文件转换为PCM格式
-     *
-     * @param inputWavFile  输入的WAV文件
-     * @param outputPcmFile 输出的PCM文件路径（可选）
-     * @return 转换后的PCM字节数组
-     */
-    public static byte[] wavToPcm(File inputWavFile, File outputPcmFile) throws Exception {
-        // 读取WAV文件
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputWavFile);
-        AudioFormat audioFormat = audioInputStream.getFormat();
-
-        // 设置目标格式为PCM（16位，单声道/立体声根据输入文件）
-        AudioFormat targetFormat = new AudioFormat(
-                AudioFormat.Encoding.PCM_SIGNED,
-                audioFormat.getSampleRate(),
-                16, // 16位深度
-                audioFormat.getChannels(),
-                audioFormat.getChannels() * 2, // 每帧字节数（通道数 × 位数/8）
-                audioFormat.getSampleRate(),
-                false // 是否大端序
-        );
-
-        // 转换音频流
-        AudioInputStream pcmAudioInputStream = AudioSystem.getAudioInputStream(targetFormat, audioInputStream);
-
-        // 读取PCM数据到字节数组
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[4096];
-        int bytesRead;
-        while ((bytesRead = pcmAudioInputStream.read(buffer)) != -1) {
-            byteArrayOutputStream.write(buffer, 0, bytesRead);
+    public static void executeFFmpeg(File input, File output) throws Exception {
+        String[] command = {
+                "D:\\software\\ffmpeg\\bin\\ffmpeg.exe",
+                "-y",
+                "-i", input.getAbsolutePath(),
+                "-acodec", "pcm_s16le",
+                "-f", "s16le",
+                "-ar", "16000",
+                "-ac", "1",
+                output.getAbsolutePath()
+        };
+        Process process = new ProcessBuilder(command).start();
+        if (process.waitFor() != 0) {
+            throw new RuntimeException("FFmpeg执行失败");
         }
-        byte[] pcmData = byteArrayOutputStream.toByteArray();
-
-        // 可选：保存为文件
-        if (outputPcmFile != null) {
-            try (FileOutputStream fos = new FileOutputStream(outputPcmFile)) {
-                fos.write(pcmData);
-            }
-        }
-
-        return pcmData;
     }
+
 
 }

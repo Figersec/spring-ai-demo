@@ -2,7 +2,7 @@ package com.kailin.demo.controller;
 
 import com.kailin.demo.service.BaiduService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +23,9 @@ public class SpeechToTextController {
      * @param file
      * @return
      */
-    @GetMapping("/realTimeStreamSpeechToText")
-    public Boolean realTimeStreamSpeechToText(@RequestParam("file") MultipartFile file) {
-        return baiduSpeechService.speechToText(file);
+    @PostMapping("/realTimeStreamSpeechToText")
+    public Boolean realTimeStreamSpeechToText(@RequestParam("file") MultipartFile audio) {
+        return baiduSpeechService.speechToText(audio);
     }
 
 }

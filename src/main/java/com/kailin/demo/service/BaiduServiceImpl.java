@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 /**
  * @author 杨松
@@ -25,39 +26,27 @@ public class BaiduServiceImpl implements BaiduService {
 
     @Override
     public boolean speechToText(MultipartFile multipartFile) {
-        // 创建临时文件（自动添加扩展名）
-        String tempName = "upload" + "." + getExtension(multipartFile.getOriginalFilename());
-        File file = FileUtil.createTempFile(tempName, true);
-
-        // 转换成pcm
-        byte[] bytes;
+        String originalFilename = multipartFile.getOriginalFilename();
         try {
-            bytes = AudioToPcmUtil.wavToPcm(file, null);
+            File tempFile = File.createTempFile("input", ".wav");
+            multipartFile.transferTo(tempFile);
+            File pcmFile = new File(tempFile.getParentFile(), originalFilename + ".pcm");
+            AudioToPcmUtil.executeFFmpeg(tempFile, pcmFile);
+            FileUtil.del(tempFile);
+            // 将文件通过websocket转发给百度
+            InputStream inputStream;
+            try {
+                inputStream = new ByteArrayInputStream(Files.readAllBytes(pcmFile.toPath()));
+                (new Runner(inputStream, MODE)).run();
+            } catch (IOException ignored) {
+
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
-        // 将文件通过websocket转发给百度
-        InputStream inputStream;
-        try {
-            inputStream = new ByteArrayInputStream(bytes);
-            (new Runner(inputStream, MODE)).run();
-        } catch (IOException ignored) {
-
-        }
-        FileUtil.del(file);
         return true;
     }
 
 
-    /**
-     * 获取文件扩展名（如".txt", ".jpg"）
-     */
-    private static String getExtension(String filename) {
-        if (filename == null) {
-            return "";
-        }
-        int lastDotIndex = filename.lastIndexOf('.');
-        return (lastDotIndex == -1) ? "" : filename.substring(lastDotIndex);
-    }
 }
