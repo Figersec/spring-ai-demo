@@ -1,4 +1,4 @@
-前端调试demo已上传
+前端demo已上传
 git地址: https://github.com/Figersec/ai-demo-web.git
 
 PS：
