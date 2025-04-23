@@ -45,7 +45,7 @@ public class BaiduServiceImpl implements BaiduService {
         } catch (IOException ignored) {
 
         }
-
+        FileUtil.del(file);
         return true;
     }
 
