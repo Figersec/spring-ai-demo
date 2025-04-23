@@ -2,5 +2,5 @@
 git地址: https://github.com/Figersec/ai-demo-web.git
 
 PS：
-1、ava代码中需将ffmpeg路径改为自己的路径。
+1、Java代码中需将ffmpeg路径改为自己的路径。
 2、百度api的appid和secretKey改为自己申请的。
